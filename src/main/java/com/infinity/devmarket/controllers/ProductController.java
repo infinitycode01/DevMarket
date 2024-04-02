@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -16,9 +16,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/home")
+    @GetMapping
     public String homePage() {
-        return "home";
+        return "products";
     }
 
 }
