@@ -1,8 +1,13 @@
 package com.infinity.devmarket.services;
 
+import com.infinity.devmarket.models.Person;
 import com.infinity.devmarket.models.Product;
 import com.infinity.devmarket.repositories.ProductRepository;
+import com.infinity.devmarket.security.PersonDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,4 +48,9 @@ public class ProductService {
     public void delete(Long id) {
         productRepository.deleteById(id);
     }
+
+    public Optional<Product> loadUserByName(String name) {
+        return productRepository.findByName(name);
+    }
+
 }

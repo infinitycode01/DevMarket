@@ -1,9 +1,8 @@
 package com.infinity.devmarket.models;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.math.BigDecimal;
 
@@ -22,8 +21,11 @@ public class Product {
     @Size(min = 10, max = 255, message = "Description size should be from 10 to 255")
     @Column(name = "description")
     private String description;
-    @NotEmpty(message = "Price is required")
-    @Min(value = 0, message = "Price should be bigger")
+    //@NotEmpty(message = "Price is required")
+    //@NotNull
+    //@DecimalMin(value = "0.0", message = "Price should be bigger")
+    //@DecimalMin("0.0")
+    //@DecimalMax("100.00")
     @Column(name = "price")
     private BigDecimal price;
 
