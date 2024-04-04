@@ -2,11 +2,7 @@ package com.infinity.devmarket.util;
 
 import com.infinity.devmarket.models.Person;
 import com.infinity.devmarket.services.PeopleService;
-import com.infinity.devmarket.services.PersonDetailsService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNullApi;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -20,12 +16,12 @@ public class PersonValidator implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(@NotNull Class<?> clazz) {
         return Person.class.equals(clazz);
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NotNull Object target, @NotNull Errors errors) {
         Person person = (Person) target;
 
         if (peopleService.loadUserByUsername(person.getUsername()).isEmpty())

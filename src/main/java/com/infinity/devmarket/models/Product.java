@@ -1,18 +1,30 @@
 package com.infinity.devmarket.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "product")
 public class Product {
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "Name is required")
+    @Size(min = 2, max = 30, message = "Name size should be from 2 to 30")
+    @Column(name = "name")
     private String name;
+    @NotEmpty(message = "Description is required")
+    @Size(min = 10, max = 255, message = "Description size should be from 10 to 255")
+    @Column(name = "description")
     private String description;
+    @NotEmpty(message = "Price is required")
+    @Min(value = 0, message = "Price should be bigger")
+    @Column(name = "price")
     private BigDecimal price;
 
     public Product() { }

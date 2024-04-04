@@ -20,8 +20,11 @@ public class Person {
     @Column(name = "password")
     private String password;
     @NotEmpty(message = "Private key is required")
+    @Size(max = 255, message = "Private key should be smaller")
     @Column(name = "private_key")
     private String privateKey;
+    @Column(name = "role")
+    private String role;
 
     public Person() { }
 
@@ -62,6 +65,14 @@ public class Person {
 
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<form name="f" method="post" action="/process_login">
+<form name="f" method="POST" action="/process_login">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
     <label for="username">Enter username: </label>
     <input type="text" name="username" id="username"/>
     <br/>
@@ -18,8 +20,6 @@
     <div th:if="${param.error}" style="color: red">
         Wrong username or password
     </div>
-
-
 </form>
 
 </body>

@@ -24,8 +24,8 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        Optional<Product> foudProduct = productRepository.findById(id);
-        return foudProduct.orElse(null);
+        Optional<Product> foundProduct = productRepository.findById(id);
+        return foundProduct.orElse(null);
     }
 
     @Transactional
