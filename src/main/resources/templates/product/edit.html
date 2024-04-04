@@ -5,6 +5,22 @@
     <title>Update product</title>
 </head>
 <body>
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <a style="font-weight: bold;">DevMarket</a>
+    </div>
+    <div>
+        <a href="/index">Home page</a>
+        <a href="/product">Products page</a>
+        <a href="/profile">My profile</a>
+    </div>
+    <div>
+        <form th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Logout"/>
+        </form>
+    </div>
+</div>
+<hr/>
 
 <form th:method="PATCH" th:action="@{/product/{id}(id=${product.getId()})}" th:object="${product}">
     <label for="name">Enter name: </label>

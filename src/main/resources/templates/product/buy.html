@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show product</title>
+    <title>Buy</title>
 </head>
 <body>
 <div style="display: flex; justify-content: space-between;">
@@ -22,22 +22,16 @@
 </div>
 <hr/>
 
-
 <p th:text="'Name: ' + ${product.getName()}">name</p>
 <p th:text="'Description: ' + ${product.getDescription()}">description</p>
 <p th:text="'Price: ' + ${product.getPrice()} + ' Eth'">price</p>
 
-<form th:action="@{/product/{id}/buy(id=${product.getId()})}" th:method="GET">
-    <input type="submit" value="Go to buy page"/>
+
+<form th:action="@{/product/{id}/buy(id=${product.getId()})}" th:method="POST">
+    <input type="submit" value="Buy this product"/>
 </form>
 
-<form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}/edit(id=${product.getId()})}" th:method="GET">
-    <input type="submit" value="Edit product"/>
-</form>
 
-<form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}(id=${product.getId()})}" th:method="DELETE">
-    <input type="submit" value="Delete product"/>
-</form>
 
 </body>
 </html>

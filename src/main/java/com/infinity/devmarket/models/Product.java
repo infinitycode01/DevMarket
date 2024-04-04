@@ -21,10 +21,9 @@ public class Product {
     @Size(min = 10, max = 255, message = "Description size should be from 10 to 255")
     @Column(name = "description")
     private String description;
-    //@NotEmpty(message = "Price is required")
-    //@NotNull
-    //@DecimalMin(value = "0.0", message = "Price should be bigger")
-    //@DecimalMin("0.0")
+    @NotNull(message = "Price is required")
+    @DecimalMin(value = "0.000001", message = "Price should be bigger")
+    //@DecimalMin("0.000001")
     //@DecimalMax("100.00")
     @Column(name = "price")
     private BigDecimal price;

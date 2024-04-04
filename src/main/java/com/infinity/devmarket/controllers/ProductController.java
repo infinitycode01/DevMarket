@@ -2,6 +2,7 @@ package com.infinity.devmarket.controllers;
 
 import com.infinity.devmarket.models.Product;
 import com.infinity.devmarket.security.PersonDetails;
+import com.infinity.devmarket.services.PaymentService;
 import com.infinity.devmarket.services.ProductService;
 import com.infinity.devmarket.util.ProductValidator;
 import jakarta.validation.Valid;
@@ -13,16 +14,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.web3j.protocol.Web3j;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
     private final ProductService productService;
+    private final PaymentService paymentService;
     private final ProductValidator productValidator;
 
     @Autowired
-    public ProductController(ProductService productService, ProductValidator productValidator) {
+    public ProductController(ProductService productService, PaymentService paymentService, ProductValidator productValidator) {
         this.productService = productService;
+        this.paymentService = paymentService;
         this.productValidator = productValidator;
     }
 
@@ -80,9 +84,37 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable("id") Long id) {
         productService.delete(id);
         return "redirect:/product";
+    }
+
+
+    @GetMapping("/{id}/buy")
+    public String buyPage(@PathVariable("id") Long id, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        model.addAttribute("person", personDetails.getPerson());
+        model.addAttribute("privateKey", personDetails.getPrivateKey());
+        model.addAttribute("product", productService.findById(id));
+        return "product/buy";
+    }
+
+    @PostMapping("/{id}/buy")
+    public String buyProduct(@PathVariable("id") Long id) {
+        try {
+            Web3j web3j = paymentService.connectToServer("http://localhost:8545");
+            paymentService.pay(web3j, productService.findById(id).getPrice());
+        } catch (Exception e) {
+            return "redirect:/product/payment_error";
+        }
+        return "redirect:/product";
+    }
+
+    @GetMapping("/payment_error")
+    public String errorPage() {
+        return "product/payment_error";
     }
 
 

@@ -5,6 +5,26 @@
     <title>Home page</title>
 </head>
 <body>
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <a style="font-weight: bold;">DevMarket</a>
+    </div>
+    <div>
+        <a href="/index">Home page</a>
+        <a href="/product">Products page</a>
+        <a href="/profile">My profile</a>
+    </div>
+    <div>
+        <form th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Logout"/>
+        </form>
+    </div>
+</div>
+<hr/>
+
+
+
 <div>
     <p th:text="'Welcome,' + ${username}"/>
 </div>
@@ -14,12 +34,6 @@
 </div>
 
 <br/>
-
-<div>
-    <form th:action="@{/logout}" th:method="POST">
-        <input type="submit" value="Logout"/>
-    </form>
-</div>
 
 </body>
 </html>

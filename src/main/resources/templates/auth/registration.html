@@ -6,6 +6,18 @@
 </head>
 <body>
 
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <a style="font-weight: bold;">DevMarket</a>
+    </div>
+    <div>
+        <form th:action="@{/auth/login}" th:method="GET">
+            <input type="submit" value="Sign in"/>
+        </form>
+    </div>
+</div>
+<hr/>
+
 <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
     <label for="username">Enter username: </label>
     <input type="text" th:field="*{username}" id="username"/>

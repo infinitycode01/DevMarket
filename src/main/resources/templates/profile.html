@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All products</title>
+    <title>Profile</title>
 </head>
 <body>
 <div style="display: flex; justify-content: space-between;">
@@ -22,13 +22,8 @@
 </div>
 <hr/>
 
-<div th:each="product : ${products}">
-    <a th:href="@{/product/{id}(id=${product.getId()})}" th:text="${product.getName()}">product</a>
-</div>
-
-<form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/new}" th:method="GET">
-    <input type="submit" value="New product"/>
-</form>
+<p th:text="'My username: ' + ${person.getUsername()}">username</p>
+<p th:text="'My balance: ' + ${balance} + ' Eth'">balance</p>
 
 </body>
 </html>

@@ -1,13 +1,13 @@
 package com.infinity.devmarket.security;
 
 import com.infinity.devmarket.models.Person;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-
 
 public class PersonDetails implements UserDetails {
     private final Person person;
@@ -57,5 +57,9 @@ public class PersonDetails implements UserDetails {
 
     public String getRole() {
         return this.person.getRole();
+    }
+
+    public String getPrivateKey() {
+        return this.person.getPrivateKey();
     }
 }
