@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ua">
 <head>
     <meta charset="UTF-8">
-    <title>Profile</title>
+    <title>Профіль</title>
 </head>
 <body>
 <div style="display: flex; justify-content: space-between;">
@@ -10,20 +10,20 @@
         <a style="font-weight: bold;">DevMarket</a>
     </div>
     <div>
-        <a href="/index">Home page</a>
-        <a href="/product">Products page</a>
-        <a href="/profile">My profile</a>
+        <a href="/index">Головна</a>
+        <a href="/product">Продукти</a>
+        <a href="/profile">Профіль</a>
     </div>
     <div>
         <form th:action="@{/logout}" th:method="POST">
-            <input type="submit" value="Logout"/>
+            <input type="submit" value="Вийти"/>
         </form>
     </div>
 </div>
 <hr/>
 
-<p th:text="'My username: ' + ${person.getUsername()}">username</p>
-<p th:text="'My balance: ' + ${balance} + ' Eth'">balance</p>
+<p th:text="'Ваш нік: '${person.getUsername()}">username</p>
+<p th:text="'Ваш баланс: ' + ${balance} + ' Eth'">balance</p>
 
 </body>
 </html>

@@ -1,12 +1,15 @@
 package com.infinity.devmarket.controllers;
 
+import com.infinity.devmarket.contract.PaymentManagerWrapper;
 import com.infinity.devmarket.models.Product;
 import com.infinity.devmarket.security.PersonDetails;
+import com.infinity.devmarket.services.ContractService;
 import com.infinity.devmarket.services.PaymentService;
 import com.infinity.devmarket.services.ProductService;
 import com.infinity.devmarket.util.ProductValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,17 +17,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
+    @Value("${owner.address}")
+    private String ownerAddress;
+    private final ContractService contractService;
     private final ProductService productService;
     private final PaymentService paymentService;
     private final ProductValidator productValidator;
 
     @Autowired
-    public ProductController(ProductService productService, PaymentService paymentService, ProductValidator productValidator) {
+    public ProductController(ContractService contractService, ProductService productService, PaymentService paymentService, ProductValidator productValidator) {
+        this.contractService = contractService;
         this.productService = productService;
         this.paymentService = paymentService;
         this.productValidator = productValidator;
@@ -78,7 +86,8 @@ public class ProductController {
 
     @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public String update(@ModelAttribute("product") Product product, @PathVariable("id") Long id) {
+    public String update(@ModelAttribute("product") Product product,
+                         @PathVariable("id") Long id) {
         productService.update(id, product);
         return "redirect:/product";
     }
@@ -95,17 +104,25 @@ public class ProductController {
     public String buyPage(@PathVariable("id") Long id, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
         model.addAttribute("person", personDetails.getPerson());
-        model.addAttribute("privateKey", personDetails.getPrivateKey());
         model.addAttribute("product", productService.findById(id));
         return "product/buy";
     }
 
     @PostMapping("/{id}/buy")
-    public String buyProduct(@PathVariable("id") Long id) {
+    public String buyProduct(@PathVariable("id") Long id,
+                             @RequestParam("privateKey") String privateKey) {
         try {
-            Web3j web3j = paymentService.connectToServer("http://localhost:8545");
-            paymentService.pay(web3j, productService.findById(id).getPrice());
+            Web3j web3j = contractService.connectToEthServer();
+
+            PaymentManagerWrapper ownerContract = contractService.deployContract(web3j);
+
+            Credentials userCredential = Credentials.create(privateKey);
+
+            paymentService.pay(contractService.loadContract(web3j, ownerContract, userCredential),
+                    productService.findById(id).getPrice());
+            ownerContract.withdraw(ownerAddress).send();
         } catch (Exception e) {
             return "redirect:/product/payment_error";
         }

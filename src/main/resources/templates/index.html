@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home page</title>
+    <title>Головна сторінка</title>
 </head>
 <body>
 
@@ -11,29 +11,21 @@
         <a style="font-weight: bold;">DevMarket</a>
     </div>
     <div>
-        <a href="/index">Home page</a>
-        <a href="/product">Products page</a>
-        <a href="/profile">My profile</a>
+        <a href="/index">Головна</a>
+        <a href="/product">Продукти</a>
+        <a href="/profile">Профіль</a>
     </div>
     <div>
         <form th:action="@{/logout}" th:method="POST">
-            <input type="submit" value="Logout"/>
+            <input type="submit" value="Вийти"/>
         </form>
     </div>
 </div>
 <hr/>
 
-
-
 <div>
-    <p th:text="'Welcome,' + ${username}"/>
+    <p th:text="'Привіт,' + ${username}"/>
 </div>
-
-<div>
-    <a href="product">View products</a>
-</div>
-
-<br/>
 
 </body>
 </html>

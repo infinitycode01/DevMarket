@@ -23,7 +23,7 @@ public class RegistrationService {
     @Transactional
     public void register(Person person) {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
-        person.setPrivateKey(encodeService.encode(person.getPrivateKey()));
+        person.setWalletAddress(encodeService.encode(person.getWalletAddress()));
         person.setRole("ROLE_USER");
         peopleRepository.save(person);
     }

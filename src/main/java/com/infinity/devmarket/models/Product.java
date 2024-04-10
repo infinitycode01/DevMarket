@@ -23,8 +23,6 @@ public class Product {
     private String description;
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.000001", message = "Price should be bigger")
-    //@DecimalMin("0.000001")
-    //@DecimalMax("100.00")
     @Column(name = "price")
     private BigDecimal price;
 

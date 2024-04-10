@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>New product</title>
+    <title>Новий продукт</title>
 </head>
 <body>
 <div style="display: flex; justify-content: space-between;">
@@ -10,32 +10,33 @@
         <a style="font-weight: bold;">DevMarket</a>
     </div>
     <div>
-        <a href="/index">Home page</a>
-        <a href="/product">Products page</a>
-        <a href="/profile">My profile</a>
+        <a href="/index">Головна</a>
+        <a href="/product">Продукти</a>
+        <a href="/profile">Профіль</a>
     </div>
     <div>
         <form th:action="@{/logout}" th:method="POST">
-            <input type="submit" value="Logout"/>
+            <input type="submit" value="Вийти"/>
         </form>
     </div>
 </div>
 <hr/>
 
 <form th:method="POST" th:action="@{/product/new}" th:object="${product}">
-    <label for="name">Enter name: </label>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <label for="name">Введіть назву: </label>
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
-    <label for="description">Enter description: </label>
+    <label for="description">Введіть опис: </label>
     <input type="text" th:field="*{description}" id="description"/>
     <div style="color: red" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
     <br/>
-    <label for="price">Enter price: </label>
+    <label for="price">Введіть ціну: </label>
     <input type="number" min="0" step="any" th:field="*{price}" id="price"/>
     <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     <br/>
-    <input type="submit" value="Add"/>
+    <input type="submit" value="Додати"/>
 </form>
 
 </body>

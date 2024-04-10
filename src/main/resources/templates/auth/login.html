@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login page</title>
+    <title>Сторінка входу</title>
 </head>
 <body>
 
@@ -12,7 +12,7 @@
     </div>
     <div>
         <form th:action="@{/auth/registration}" th:method="GET">
-            <input type="submit" value="Sign up"/>
+            <input type="submit" value="Реєстрація"/>
         </form>
     </div>
 </div>
@@ -21,16 +21,16 @@
 <form name="f" method="POST" action="/process_login">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-    <label for="username">Enter username: </label>
+    <label for="username">Введіть нік: </label>
     <input type="text" name="username" id="username"/>
     <br/>
-    <label for="password">Enter password: </label>
+    <label for="password">Введіть пароль: </label>
     <input type="password" name="password" id="password"/>
     <br/>
-    <input type="submit" value="Login"/>
+    <input type="submit" value="Вхід"/>
 
     <div th:if="${param.error}" style="color: red">
-        Wrong username or password
+        Неправильний нік або пароль
     </div>
 </form>
 

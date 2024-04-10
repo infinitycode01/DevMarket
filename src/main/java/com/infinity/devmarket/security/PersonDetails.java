@@ -59,7 +59,7 @@ public class PersonDetails implements UserDetails {
         return this.person.getRole();
     }
 
-    public String getPrivateKey() {
-        return this.person.getPrivateKey();
+    public String getWalletAddress() {
+        return this.person.getWalletAddress();
     }
 }

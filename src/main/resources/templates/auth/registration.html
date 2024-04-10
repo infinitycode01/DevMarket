@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Registration page</title>
+    <title>Сторінка реєстрації</title>
 </head>
 <body>
 
@@ -12,24 +12,25 @@
     </div>
     <div>
         <form th:action="@{/auth/login}" th:method="GET">
-            <input type="submit" value="Sign in"/>
+            <input type="submit" value="Вхід"/>
         </form>
     </div>
 </div>
 <hr/>
 
 <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
-    <label for="username">Enter username: </label>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <label for="username">Введіть нік: </label>
     <input type="text" th:field="*{username}" id="username"/>
     <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
     <br/>
-    <label for="password">Enter password: </label>
+    <label for="password">Введіть пароль: </label>
     <input type="password" th:field="*{password}" id="password"/>
     <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
     <br/>
-    <label for="private_key">Enter private key: </label>
-    <input type="text" th:field="*{privateKey}" id="private_key"/>
-    <div style="color: red" th:if="${#fields.hasErrors('privateKey')}" th:errors="*{privateKey}">Private key error</div>
+    <label for="wallet_address">Введіть адрес гаманця: </label>
+    <input type="text" th:field="*{walletAddress}" id="wallet_address"/>
+    <div style="color: red" th:if="${#fields.hasErrors('walletAddress')}" th:errors="*{walletAddress}">Wallet address error</div>
     <br/>
     <input type="submit" value="Sign up"/>
 </form>
