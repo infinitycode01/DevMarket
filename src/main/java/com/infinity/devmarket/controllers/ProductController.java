@@ -43,7 +43,6 @@ public class ProductController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("role", personDetails.getRole());
-
         model.addAttribute("products", productService.findAll());
         return "product/index";
     }
@@ -115,14 +114,12 @@ public class ProductController {
                              @RequestParam("privateKey") String privateKey) {
         try {
             Web3j web3j = contractService.connectToEthServer();
-
             PaymentManagerWrapper ownerContract = contractService.deployContract(web3j);
-
             Credentials userCredential = Credentials.create(privateKey);
 
             paymentService.pay(contractService.loadContract(web3j, ownerContract, userCredential),
                     productService.findById(id).getPrice());
-            ownerContract.withdraw(ownerAddress).send();
+            paymentService.withdraw(ownerContract, ownerAddress);
         } catch (Exception e) {
             return "redirect:/product/payment_error";
         }
@@ -133,8 +130,4 @@ public class ProductController {
     public String errorPage() {
         return "product/payment_error";
     }
-
-
-
-
 }

@@ -22,8 +22,17 @@
 </div>
 <hr/>
 
-<p th:text="'Ваш нік: '${person.getUsername()}">username</p>
-<p th:text="'Ваш баланс: ' + ${balance} + ' Eth'">balance</p>
+<div th:switch="${balance}">
+    <p th:text="'Ваш нік: ' + ${person.getUsername()}">username</p>
+    <p style="color: red" th:case="null">Неможливо обробити баланс, змініть адрес!</p>
+    <p th:case="*" th:text="'Ваш баланс: ' + ${balance} + ' Eth'">balance</p>
+</div>
+
+<form th:action="@{/profile/edit}" th:method="GET">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input type="submit" value="Змінити адрес"/>
+</form>
+
 
 </body>
 </html>

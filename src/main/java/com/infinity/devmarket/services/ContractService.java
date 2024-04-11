@@ -14,6 +14,7 @@ import org.web3j.utils.Convert;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 @Service
 public class ContractService {
@@ -39,9 +40,14 @@ public class ContractService {
         return paymentManagerWrapper.getContractAddress();
     }
 
-    public BigDecimal getWalletBalance(Web3j web3j, String address) throws IOException {
-        EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-        BigInteger weiBalance = ethGetBalance.getBalance();
-        return Convert.fromWei(new BigDecimal(weiBalance), Convert.Unit.ETHER);
+    public Optional<BigDecimal> getWalletBalance(Web3j web3j, String address) {
+        BigInteger weiBalance;
+        try {
+            EthGetBalance ethGetBalance = web3j.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
+            weiBalance = ethGetBalance.getBalance();
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(Convert.fromWei(new BigDecimal(weiBalance), Convert.Unit.ETHER));
     }
 }

@@ -2,7 +2,6 @@ package com.infinity.devmarket.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import org.springframework.format.annotation.NumberFormat;
 
 import java.math.BigDecimal;
 
