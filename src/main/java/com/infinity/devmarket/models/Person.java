@@ -12,18 +12,18 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "Username is required")
-    @Size(min = 2, max = 20, message = "Username size should be from 2 to 255")
+    @NotEmpty(message = "Логін є обов'язковим полем")
+    @Size(min = 2, max = 20, message = "Довжина логіну має бути від 2 до 255 символів")
     @Column(name = "username")
     private String username;
 
-    @NotEmpty(message = "Password is required")
-    @Size(min = 4, max = 60, message = "Password size should be from 4 to 60")
+    @NotEmpty(message = "Пароль є обов'язковим полем")
+    @Size(min = 4, max = 60, message = "Довжина паролю має бути від 4 до 60 символів")
     @Column(name = "password")
     private String password;
 
-    @NotEmpty(message = "Wallet address is required")
-    @Size(max = 255, message = "Wallet address should be smaller")
+    @NotEmpty(message = "Адрес гаманця є обов'язковим полем")
+    @Size(max = 255, message = "Адрес гаманця має бути меншим")
     @Column(name = "wallet_address")
     private String walletAddress;
 
