@@ -2,45 +2,70 @@
 <html lang="ua" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Show product</title>
+    <title>Сторінка продукту</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar-nav {
+            margin: auto;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-<div style="display: flex; justify-content: space-between;">
-    <div>
-        <a style="font-weight: bold;">DevMarket</a>
-    </div>
-    <div>
-        <a href="/index">Головна</a>
-        <a href="/product">Продукти</a>
-        <a href="/profile">Профіль</a>
-    </div>
-    <div>
-        <form th:action="@{/logout}" th:method="POST">
-            <input type="submit" value="Вийти"/>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand font-weight-bold" href="#">DevMarket</a>
+            <div class="navbar-nav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">Головна</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/product">Продукти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/profile">Профіль</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <form th:action="@{/logout}" th:method="POST">
+                    <button class="btn btn-outline-danger" type="submit">Вийти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container mt-3">
+        <div class="mb-3">
+            <p th:text="'Назва: ' + ${product.getName()}">name</p>
+            <p th:text="'Опис: ' + ${product.getDescription()}">description</p>
+            <p th:text="'Ціна: ' + ${product.getPrice()} + ' Eth'">price</p>
+        </div>
+
+        <form th:action="@{/product/{id}/buy(id=${product.getId()})}" th:method="GET">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="btn btn-primary">Перейти на сторінку оплати</button>
         </form>
+
+        <div class="button-group">
+            <form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}/edit(id=${product.getId()})}" th:method="GET">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-warning">Змінити продукт</button>
+            </form>
+
+            <form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}(id=${product.getId()})}" th:method="DELETE">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-danger">Видалити продукт</button>
+            </form>
+        </div>
     </div>
-</div>
-<hr/>
 
-
-<p th:text="'Назва: ' + ${product.getName()}">name</p>
-<p th:text="'Опис: ' + ${product.getDescription()}">description</p>
-<p th:text="'Ціна: ' + ${product.getPrice()} + ' Eth'">price</p>
-
-<form th:action="@{/product/{id}/buy(id=${product.getId()})}" th:method="GET">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="submit" value="Перейти на сторінку оплати"/>
-</form>
-
-<form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}/edit(id=${product.getId()})}" th:method="GET">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="submit" value="Змінити продукт"/>
-</form>
-
-<form th:if="${role == 'ROLE_ADMIN'}" th:action="@{/product/{id}(id=${product.getId()})}" th:method="DELETE">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="submit" value="Видалити продукт"/>
-</form>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -12,16 +12,19 @@ public class Product {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty(message = "Name is required")
-    @Size(min = 2, max = 30, message = "Name size should be from 2 to 30")
+
+    @NotEmpty(message = "Назва є обов'язковим полем")
+    @Size(min = 2, max = 30, message = "Довжина назви має бути від 2 до 30")
     @Column(name = "name")
     private String name;
-    @NotEmpty(message = "Description is required")
-    @Size(min = 10, max = 255, message = "Description size should be from 10 to 255")
+
+    @NotEmpty(message = "Опис є обов'язковим полем")
+    @Size(min = 10, max = 255, message = "Довжина опису має буди від 10 до 255")
     @Column(name = "description")
     private String description;
-    @NotNull(message = "Price is required")
-    @DecimalMin(value = "0.000001", message = "Price should be bigger")
+
+    @NotNull(message = "Ціна є обов'язковим полем")
+    @DecimalMin(value = "0.000001", message = "Ціна має бути більшою")
     @Column(name = "price")
     private BigDecimal price;
 

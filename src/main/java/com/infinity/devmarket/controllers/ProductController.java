@@ -1,9 +1,11 @@
 package com.infinity.devmarket.controllers;
 
 import com.infinity.devmarket.contract.PaymentManagerWrapper;
+import com.infinity.devmarket.models.Order;
 import com.infinity.devmarket.models.Product;
 import com.infinity.devmarket.security.PersonDetails;
 import com.infinity.devmarket.services.ContractService;
+import com.infinity.devmarket.services.OrderService;
 import com.infinity.devmarket.services.PaymentService;
 import com.infinity.devmarket.services.ProductService;
 import com.infinity.devmarket.util.ProductValidator;
@@ -29,13 +31,15 @@ public class ProductController {
     private final ProductService productService;
     private final PaymentService paymentService;
     private final ProductValidator productValidator;
+    private final OrderService orderService;
 
     @Autowired
-    public ProductController(ContractService contractService, ProductService productService, PaymentService paymentService, ProductValidator productValidator) {
+    public ProductController(ContractService contractService, ProductService productService, PaymentService paymentService, ProductValidator productValidator, OrderService orderService) {
         this.contractService = contractService;
         this.productService = productService;
         this.paymentService = paymentService;
         this.productValidator = productValidator;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -48,12 +52,18 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public String viewProductById(@PathVariable("id") Long id, Model model) {
+    public String showProductById(@PathVariable("id") Long id, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("role", personDetails.getRole());
         model.addAttribute("product", productService.findById(id));
         return "product/show";
+    }
+
+    @GetMapping("/view/{id}")
+    public String viewProductById(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("product", productService.findById(id));
+        return "product/view";
     }
 
     @GetMapping("/new")
@@ -100,7 +110,8 @@ public class ProductController {
 
 
     @GetMapping("/{id}/buy")
-    public String buyPage(@PathVariable("id") Long id, Model model) {
+    public String buyPage(@PathVariable("id") Long id, /*@ModelAttribute Order order,*/
+                          Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
@@ -111,7 +122,8 @@ public class ProductController {
 
     @PostMapping("/{id}/buy")
     public String buyProduct(@PathVariable("id") Long id,
-                             @RequestParam("privateKey") String privateKey) {
+                             @RequestParam("privateKey") String privateKey,
+                             Order order) {
         try {
             Web3j web3j = contractService.connectToEthServer();
             PaymentManagerWrapper ownerContract = contractService.deployContract(web3j);
@@ -123,6 +135,15 @@ public class ProductController {
         } catch (Exception e) {
             return "redirect:/product/payment_error";
         }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+
+        //Order order = new Order();
+        order.setPersonId(personDetails.getPerson().getId());
+        order.setProductId(id);
+        orderService.save(order);
+
         return "redirect:/product";
     }
 

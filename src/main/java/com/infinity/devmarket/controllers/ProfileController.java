@@ -3,6 +3,7 @@ package com.infinity.devmarket.controllers;
 import com.infinity.devmarket.models.Person;
 import com.infinity.devmarket.security.PersonDetails;
 import com.infinity.devmarket.services.EncodeService;
+import com.infinity.devmarket.services.OrderService;
 import com.infinity.devmarket.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProfileController {
     private final PersonService personService;
     private final EncodeService encodeService;
+    private final OrderService orderService;
 
     @Autowired
-    public ProfileController(PersonService personService, EncodeService encodeService) {
+    public ProfileController(PersonService personService, EncodeService encodeService, OrderService orderService) {
         this.personService = personService;
         this.encodeService = encodeService;
+        this.orderService = orderService;
     }
 
     @GetMapping
@@ -29,6 +32,7 @@ public class ProfileController {
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("person", personDetails.getPerson());
         model.addAttribute("balance", personService.getBalance(encodeService.decode(personDetails.getWalletAddress())));
+        model.addAttribute("orders", orderService.findPersonOrders(personDetails.getPerson().getId()));
         return "profile/profile";
     }
 
@@ -37,7 +41,6 @@ public class ProfileController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         model.addAttribute("person", personDetails.getPerson());
-        model.addAttribute("walletAddress", encodeService.decode(personDetails.getWalletAddress()));
         return "profile/edit";
     }
 
