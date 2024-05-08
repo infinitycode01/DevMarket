@@ -139,7 +139,6 @@ public class ProductController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
 
-        //Order order = new Order();
         order.setPersonId(personDetails.getPerson().getId());
         order.setProductId(id);
         orderService.save(order);

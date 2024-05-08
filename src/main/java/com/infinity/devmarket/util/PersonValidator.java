@@ -27,6 +27,6 @@ public class PersonValidator implements Validator {
         if (peopleService.loadUserByUsername(person.getUsername()).isEmpty())
             return;
 
-        errors.rejectValue("username", "", "User by that name already exists");
+        errors.rejectValue("username", "", "Користувач з таким ім'ям вже існує");
     }
 }

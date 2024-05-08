@@ -43,9 +43,9 @@
 
     <div class="container mt-3">
         <div class="mb-3">
-            <p th:text="'Назва: ' + ${product.getName()}">name</p>
-            <p th:text="'Опис: ' + ${product.getDescription()}">description</p>
-            <p th:text="'Ціна: ' + ${product.getPrice()} + ' Eth'">price</p>
+            <p class="fs-5" th:text="'Назва: ' + ${product.getName()}">name</p>
+            <p class="fs-5" th:text="'Опис: ' + ${product.getDescription()}">description</p>
+            <p class="fs-5" th:text="'Ціна: ' + ${product.getPrice()} + ' Eth'">price</p>
         </div>
 
         <form th:action="@{/product/{id}/buy(id=${product.getId()})}" th:method="GET">

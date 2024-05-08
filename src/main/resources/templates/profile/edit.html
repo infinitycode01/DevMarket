@@ -42,7 +42,7 @@
             <p th:text="'Ваш логін: ' + *{username}">username</p>
             <div class="mb-3">
                 <label for="wallet_address" class="form-label">Введіть новий адрес: </label>
-                <input type="text" class="form-control" name="walletAddress" id="wallet_address" required/>
+                <input type="text" class="form-control" name="walletAddress" id="wallet_address" minlength="40" required/>
             </div>
             <button type="submit" class="btn btn-primary">Змінити</button>
         </form>

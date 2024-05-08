@@ -27,6 +27,6 @@ public class ProductValidator implements Validator {
         if (productService.loadUserByName(product.getName()).isEmpty())
             return;
 
-        errors.rejectValue("name", "", "Product by that name already exists");
+        errors.rejectValue("name", "", "Продукт з такою назвою вже існує");
     }
 }

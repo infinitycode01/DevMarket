@@ -8,5 +8,4 @@ public class DevMarketApplication {
     public static void main(String[] args) {
         SpringApplication.run(DevMarketApplication.class, args);
     }
-
 }

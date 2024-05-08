@@ -2,6 +2,7 @@ package com.infinity.devmarket.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -24,6 +25,7 @@ public class Person {
 
     @NotEmpty(message = "Адрес гаманця є обов'язковим полем")
     @Size(max = 255, message = "Адрес гаманця має бути меншим")
+    @Pattern(regexp = "0x[0-9a-fA-F]+", message = "Адрес має бути валідним та починатись з '0x'")
     @Column(name = "wallet_address")
     private String walletAddress;
 
